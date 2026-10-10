@@ -1,0 +1,19 @@
+{
+  "name": "moodle-lti-rag-lab",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Три задания по RAG-рекомендательной системе интернет-магазина для лабораторной Moodle LTI 1.3",
+  "engines": {
+    "node": ">=24"
+  },
+  "scripts": {
+    "start": "node --env-file-if-exists=.env src/server.mjs",
+    "test": "node --test test/*.test.mjs",
+    "demo": "node scripts/local-demo.mjs"
+  },
+  "dependencies": {
+    "express": "5.2.1",
+    "ltijs": "7.0.7"
+  }
+}
