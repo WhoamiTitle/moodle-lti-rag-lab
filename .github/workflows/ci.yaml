@@ -1,0 +1,24 @@
+name: CI
+
+on: [push, pull_request]
+
+permissions:
+  contents: read
+
+jobs:
+  check-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+      - name: Set up Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: "24.10.0"
+          cache: npm
+      - name: Install locked dependencies
+        run: npm ci
+      - name: Non-mutating checks
+        run: make check-ci
+      - name: Isolated Docker tests
+        run: make test-docker

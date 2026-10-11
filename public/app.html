@@ -1,77 +1,102 @@
 <!doctype html>
 <html lang="ru">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>RAG · Учебный тренажёр</title>
-  <link rel="stylesheet" href="/assets/app.css">
-  <script type="module" src="/assets/app.js"></script>
-</head>
-<body class="lab">
-  <a class="lab__skip" href="#questions">К заданиям</a>
-  <header class="lab__header">
-    <a class="lab__brand" href="/app" aria-label="Главная тренажёра">RAG <span>LAB</span></a>
-    <p class="lab__connection" id="connection">Проверка учебной сессии…</p>
-  </header>
-  <main class="lab__main">
-    <section class="lab__intro" aria-labelledby="title">
-      <p class="lab__eyebrow">Интернет-магазин · Семантический поиск · Актуальные данные</p>
-      <h1 id="title">Как работает RAG-рекомендация</h1>
-      <p class="lab__lead">Три коротких задания: от поиска контекста до проверки товара перед рекомендацией.</p>
-      <dl class="lab__facts">
-        <div><dt>Задания</dt><dd>3 вопроса</dd></div>
-        <div><dt>Максимум</dt><dd>10 баллов</dd></div>
-        <div><dt>Проверка</dt><dd>На сервере</dd></div>
-      </dl>
-    </section>
-
-    <section class="lab__session" aria-label="Учебная сессия">
-      <dl id="session-details" class="lab__identity"></dl>
-      <p id="mode" class="lab__muted"></p>
-    </section>
-    <p id="notice" class="lab__notice" role="status" aria-live="polite" tabindex="-1">Загрузка заданий…</p>
-    <noscript><p class="lab__notice">Для запуска и передачи оценки необходим JavaScript.</p></noscript>
-
-    <div class="lab__layout">
-      <section id="questions" aria-labelledby="questions-title">
-        <div class="lab__section-heading"><h2 id="questions-title">Проверочные задания</h2><span>3 + 3 + 4</span></div>
-        <form id="answer-form" autocomplete="off">
-          <div id="tasks" class="lab__tasks"></div>
-          <div class="lab__actions">
-            <button id="submit" class="lab__button" type="submit" disabled>Проверить и отправить оценку</button>
-            <button id="new-attempt" class="lab__button lab__button_secondary" type="button" hidden>Новая попытка</button>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>RAG · Учебный тренажёр</title>
+    <link rel="stylesheet" href="./assets/app.css" />
+    <script type="module" src="./assets/app.js"></script>
+  </head>
+  <body class="lab">
+    <a class="lab__skip" href="#questions">К заданиям</a>
+    <header class="lab__header">
+      <a class="lab__brand" href="./app" aria-label="Главная тренажёра">RAG <span>LAB</span></a>
+      <p class="lab__connection" id="connection">Проверка учебной сессии…</p>
+    </header>
+    <main class="lab__main">
+      <section class="lab__intro" aria-labelledby="title">
+        <p class="lab__eyebrow">Интернет-магазин · Семантический поиск · Актуальные данные</p>
+        <h1 id="title">Как работает RAG-рекомендация</h1>
+        <p class="lab__lead">Три коротких задания: от поиска контекста до проверки товара перед рекомендацией.</p>
+        <dl class="lab__facts">
+          <div>
+            <dt>Задания</dt>
+            <dd>3 вопроса</dd>
           </div>
-          <p class="lab__hint">Регистр и пробелы по краям не учитываются. Пустой ответ считается неверным.</p>
-        </form>
+          <div>
+            <dt>Максимум</dt>
+            <dd>10 баллов</dd>
+          </div>
+          <div>
+            <dt>Проверка</dt>
+            <dd>На сервере</dd>
+          </div>
+        </dl>
       </section>
-      <aside class="lab__sidebar" aria-label="Результат и порядок доставки">
-        <section id="result" class="lab__result" aria-labelledby="result-title">
-          <p class="lab__eyebrow">Текущая попытка</p>
-          <h2 id="result-title">Ваш результат</h2>
-          <p class="lab__score"><span id="score">—</span><span class="lab__score-max"> / 10</span></p>
-          <p id="delivery" class="lab__delivery">Появится после проверки ответов.</p>
-          <ul id="item-results" class="lab__item-results"></ul>
-          <p id="attempt-meta" class="lab__hint"></p>
+
+      <section class="lab__session" aria-label="Учебная сессия">
+        <dl id="session-details" class="lab__identity"></dl>
+        <p id="mode" class="lab__muted"></p>
+      </section>
+      <p id="notice" class="lab__notice" role="status" aria-live="polite" tabindex="-1">Загрузка заданий…</p>
+      <noscript><p class="lab__notice">Для запуска и передачи оценки необходим JavaScript.</p></noscript>
+
+      <div class="lab__layout">
+        <section id="questions" aria-labelledby="questions-title">
+          <div class="lab__section-heading">
+            <h2 id="questions-title">Проверочные задания</h2>
+            <span>3 + 3 + 4</span>
+          </div>
+          <form id="answer-form" autocomplete="off">
+            <div id="tasks" class="lab__tasks"></div>
+            <div class="lab__actions">
+              <button id="submit" class="lab__button" type="submit" disabled>Проверить и отправить оценку</button>
+              <button id="new-attempt" class="lab__button lab__button_secondary" type="button" hidden>
+                Новая попытка
+              </button>
+            </div>
+            <p class="lab__hint">Регистр и пробелы по краям не учитываются. Пустой ответ считается неверным.</p>
+          </form>
         </section>
-        <section class="lab__guide" aria-labelledby="guide-title">
-          <h2 id="guide-title">Что попадёт в журнал</h2>
-          <p>Сумма баллов за три ответа. Новая завершённая попытка обновляет ту же колонку курса.</p>
-          <p>При сбое результат сохраняется. Повтор доставки отправляет ту же оценку, не создавая новую попытку.</p>
-        </section>
-      </aside>
-    </div>
-    <section class="lab__history" aria-labelledby="history-title">
-      <div class="lab__section-heading"><h2 id="history-title">Предыдущие попытки</h2><span id="history-count">0</span></div>
-      <p id="history-empty" class="lab__muted">Здесь появятся завершённые попытки после нажатия «Новая попытка».</p>
-      <div id="history-wrapper" class="lab__table-wrapper" hidden>
-        <table class="lab__table">
-          <caption>Последние 20 предыдущих попыток этой учебной сессии</caption>
-          <thead><tr><th scope="col">Создана</th><th scope="col">Баллы</th><th scope="col">Доставка</th></tr></thead>
-          <tbody id="history-rows"></tbody>
-        </table>
+        <aside class="lab__sidebar" aria-label="Результат и порядок доставки">
+          <section id="result" class="lab__result" aria-labelledby="result-title">
+            <p class="lab__eyebrow">Текущая попытка</p>
+            <h2 id="result-title">Ваш результат</h2>
+            <p class="lab__score"><span id="score">—</span><span class="lab__score-max"> / 10</span></p>
+            <p id="delivery" class="lab__delivery">Появится после проверки ответов.</p>
+            <ul id="item-results" class="lab__item-results"></ul>
+            <p id="attempt-meta" class="lab__hint"></p>
+          </section>
+          <section class="lab__guide" aria-labelledby="guide-title">
+            <h2 id="guide-title">Что попадёт в журнал</h2>
+            <p>Сумма баллов за три ответа. Новая завершённая попытка обновляет ту же колонку курса.</p>
+            <p>При сбое результат сохраняется. Повтор доставки отправляет ту же оценку, не создавая новую попытку.</p>
+          </section>
+        </aside>
       </div>
-    </section>
-  </main>
-  <footer class="lab__footer">LTI 1.3 + AGS · История разделена по участнику, курсу и элементу.</footer>
-</body>
+      <section class="lab__history" aria-labelledby="history-title">
+        <div class="lab__section-heading">
+          <h2 id="history-title">Предыдущие попытки</h2>
+          <span id="history-count">0</span>
+        </div>
+        <p id="history-empty" class="lab__muted">Здесь появятся завершённые попытки после нажатия «Новая попытка».</p>
+        <div id="history-wrapper" class="lab__table-wrapper" hidden>
+          <table class="lab__table">
+            <caption>
+              Последние 20 предыдущих попыток этой учебной сессии
+            </caption>
+            <thead>
+              <tr>
+                <th scope="col">Создана</th>
+                <th scope="col">Баллы</th>
+                <th scope="col">Доставка</th>
+              </tr>
+            </thead>
+            <tbody id="history-rows"></tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+    <footer class="lab__footer">LTI 1.3 + AGS · История разделена по участнику, курсу и элементу.</footer>
+  </body>
 </html>

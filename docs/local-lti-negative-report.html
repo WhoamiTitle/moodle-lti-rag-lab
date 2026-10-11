@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Локальные проверки Moodle LTI</title>
+    <style>
+      :root {
+        color-scheme: light;
+        font-family: system-ui, sans-serif;
+        color: #172b3a;
+        background: #f2f5f8;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        line-height: 1.5;
+      }
+      main {
+        max-width: 960px;
+        margin-inline: auto;
+        padding: 28px 24px;
+      }
+      h1 {
+        margin-block: 0 12px;
+        font-size: clamp(1.4rem, 4vw, 1.9rem);
+        line-height: 1.25;
+      }
+      h2 {
+        margin-block: 24px 8px;
+        font-size: 1.2rem;
+      }
+      p {
+        margin-block: 12px;
+      }
+      .context {
+        font-size: 0.9rem;
+      }
+      .summary {
+        padding: 14px 18px;
+        border: 1px solid #9dcdbb;
+        border-radius: 8px;
+        background: #eaf7ef;
+        color: #154b36;
+      }
+      .summary p {
+        margin: 0;
+      }
+      .results {
+        overflow-x: auto;
+        margin-block: 16px;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        background: white;
+        font-size: 0.9rem;
+      }
+      caption {
+        padding-block: 0 10px;
+        text-align: left;
+        font-weight: 600;
+      }
+      th,
+      td {
+        padding: 10px 12px;
+        border: 1px solid #cbd5de;
+        text-align: left;
+        vertical-align: top;
+        overflow-wrap: anywhere;
+      }
+      thead {
+        background: #e6edf5;
+      }
+      tbody th {
+        font-weight: 500;
+      }
+      code {
+        font-family: ui-monospace, monospace;
+        font-size: 0.9em;
+      }
+      a {
+        color: #184f9a;
+      }
+      a:focus-visible {
+        outline: 3px solid #184f9a;
+        outline-offset: 4px;
+      }
+      footer {
+        margin-top: 24px;
+        border-top: 1px solid #cbd5de;
+        padding-top: 12px;
+        font-size: 0.85rem;
+      }
+      @media print {
+        :root {
+          background: white;
+        }
+        main {
+          max-width: none;
+          padding: 0;
+        }
+        tr {
+          break-inside: avoid;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <header>
+        <h1>Локальные проверки Moodle LTI</h1>
+        <p class="context">
+          <time datetime="2026-10-10T13:53:41.460Z">2026-10-10 13:53:41.460 UTC</time>
+          · Moodle <code>localhost:8000</code> · Тренажёр <code>localhost:3000</code>
+        </p>
+        <p>
+          Протокол реальных HTTP-запросов с действующими сессиями после подписанного запуска из Moodle. Это сохранённый
+          отчёт, не сетевой DevTools и не имитационная платформа.
+        </p>
+      </header>
+      <section class="summary" aria-label="Итог проверки">
+        <p><strong>9 из 9 проверок пройдено. А — 10/10, Б — 7/10.</strong></p>
+        <p>Одна исходная колонка LTI. После каждого отказа оценки, история Moodle и файлы попыток не изменились.</p>
+      </section>
+      <div class="results">
+        <table>
+          <caption>
+            POST /api/submit; последняя строка — POST /api/new-attempt
+          </caption>
+          <thead>
+            <tr>
+              <th scope="col">Проверка</th>
+              <th scope="col">Ожидали</th>
+              <th scope="col">Получили</th>
+              <th scope="col">Код ответа</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">Подмена userId</th>
+              <td>400</td>
+              <td>400</td>
+              <td><code>invalid_body</code></td>
+            </tr>
+            <tr>
+              <th scope="row">Подмена scoreGiven</th>
+              <td>400</td>
+              <td>400</td>
+              <td><code>invalid_body</code></td>
+            </tr>
+            <tr>
+              <th scope="row">Отсутствует q3</th>
+              <td>400</td>
+              <td>400</td>
+              <td><code>AnswersValidationError</code></td>
+            </tr>
+            <tr>
+              <th scope="row">POST без CSRF</th>
+              <td>403</td>
+              <td>403</td>
+              <td><code>invalid_csrf</code></td>
+            </tr>
+            <tr>
+              <th scope="row">POST с неверным CSRF</th>
+              <td>403</td>
+              <td>403</td>
+              <td><code>invalid_csrf</code></td>
+            </tr>
+            <tr>
+              <th scope="row">POST без Origin</th>
+              <td>403</td>
+              <td>403</td>
+              <td><code>cross_origin</code></td>
+            </tr>
+            <tr>
+              <th scope="row">POST с чужим Origin</th>
+              <td>403</td>
+              <td>403</td>
+              <td><code>cross_origin</code></td>
+            </tr>
+            <tr>
+              <th scope="row">Instructor: отправка оценки</th>
+              <td>403</td>
+              <td>403</td>
+              <td><code>read_only</code></td>
+            </tr>
+            <tr>
+              <th scope="row">Instructor: новая попытка</th>
+              <td>403</td>
+              <td>403</td>
+              <td><code>read_only</code></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <section aria-labelledby="instructor-title">
+        <h2 id="instructor-title">Настоящий Instructor без прав администратора</h2>
+        <p>
+          <code>lti_instructor</code> · Moodle user ID 5 · роль курса <code>teacher</code> · подписанная LTI-роль
+          <code>membership#Instructor</code>. В приложении <code>learner: false</code>: просмотр, без отправки и новой
+          попытки.
+        </p>
+        <p>Строк оценки — 0; записей истории оценок — 0. Файла попыток Instructor нет; всего файлов студентов — 2.</p>
+      </section>
+      <footer>
+        <p>
+          После каждого запроса отдельно прочитаны grade_grades и grade_grades_history штатным Moodle CLI; состав и
+          SHA-256 JSON-файлов студентов совпали. Учётные записи синтетические.
+        </p>
+        <p><a href="local-lti-negative-evidence.json">Полный JSON-протокол с данными до и после</a></p>
+        <p>Только loopback HTTP. Публичный HTTPS не проверялся. Коммит и пуш не выполнялись.</p>
+      </footer>
+    </main>
+  </body>
+</html>

@@ -1,0 +1,193 @@
+{
+  "checkedAt": "2026-10-11T09:29:54Z",
+  "timezone": "Asia/Yakutsk",
+  "environment": {
+    "platform": "https://eoweblab.gnomio.com",
+    "publicUrl": "https://se.ifmo.ru/~s507353/moodle-lti-rag",
+    "realPlatform": true,
+    "syntheticLearnerOnly": true,
+    "health": { "ok": true, "configured": true },
+    "publicKeyCount": 1,
+    "publicKeyTypes": ["RSA"],
+    "mockPlatformEnabled": false
+  },
+  "registration": {
+    "metadataFile": "../deploy/helios/gnomio-registration.json",
+    "name": "RAG-тренажёр · Helios · LTI 1.3",
+    "toolId": "1",
+    "deploymentId": "1",
+    "ltiVersion": "1.3",
+    "publicKeyType": "Keyset URL",
+    "launchUrl": "https://se.ifmo.ru/~s507353/moodle-lti-rag/lti/launch",
+    "loginUrl": "https://se.ifmo.ru/~s507353/moodle-lti-rag/lti/login",
+    "keysetUrl": "https://se.ifmo.ru/~s507353/moodle-lti-rag/lti/keys",
+    "launchContainer": "New window",
+    "ags": "grade sync only",
+    "acceptGrades": "Always",
+    "forceSsl": true,
+    "shareName": "Never",
+    "shareEmail": "Never",
+    "namesAndRoleProvisioning": false,
+    "toolSettingsService": false,
+    "deepLinking": false,
+    "privateEnvironmentBackupPreserved": true
+  },
+  "activity": {
+    "courseId": "2",
+    "courseName": "Test",
+    "courseModuleId": "6",
+    "name": "RAG-рекомендательная система: три задания (LTI)",
+    "url": "https://eoweblab.gnomio.com/mod/lti/view.php?id=6",
+    "gradeType": "Point",
+    "gradeMaximum": 10,
+    "existingScormActivitiesChanged": false
+  },
+  "learner": {
+    "username": "student1",
+    "technicalUserId": "3",
+    "authenticationMethod": "Standalone learner sign-in; password entered privately by user",
+    "gradeSequenceAuthenticationMethod": "Moodle administrator Log in as",
+    "standalonePasswordLoginVerified": true,
+    "passwordChanged": false,
+    "learnerModeObserved": true,
+    "finalGrade": 10,
+    "attemptHistoryGrades": [0, 7]
+  },
+  "gradeSteps": [
+    {
+      "answers": { "q1": "", "q2": "", "q3": "" },
+      "toolScore": 0,
+      "gradebookScore": "0.00",
+      "gradebookRange": "0–10",
+      "deliveryConfirmedInTool": true,
+      "gradebookScreenshot": "screenshots/gnomio-lti-student1-grade-0.jpg"
+    },
+    {
+      "answers": { "q1": "RAG", "q2": "INDEX", "q3": "API" },
+      "toolScore": 7,
+      "gradebookScore": "7.00",
+      "gradebookRange": "0–10",
+      "deliveryConfirmedInTool": true,
+      "gradebookScreenshot": "screenshots/gnomio-lti-student1-grade-7.jpg"
+    },
+    {
+      "answers": { "q1": " rag ", "q2": "Embedding", "q3": " api " },
+      "toolScore": 10,
+      "gradebookScore": "10.00",
+      "gradebookRange": "0–10",
+      "deliveryConfirmedInTool": true,
+      "gradebookScreenshot": "screenshots/gnomio-lti-student1-grade-10.jpg"
+    }
+  ],
+  "receiverVerification": {
+    "method": "Read actual Moodle User report in browser after each attempt",
+    "url": "https://eoweblab.gnomio.com/grade/report/user/index.php?id=2",
+    "sameActivityRowUpdated": true,
+    "manualGradeOverridesApplied": false,
+    "databaseOrGradeHistoryInspected": false,
+    "courseTotalRange": "0–110",
+    "courseAggregationChanged": false
+  },
+  "normalLoginRecheck": {
+    "checkedAt": "2026-10-11T09:43:51Z",
+    "ordinaryLoginCompletedByUser": true,
+    "credentialsCaptured": false,
+    "impersonationEndedBeforeLogin": true,
+    "moodleDashboardAndUserReportShowStudentOnly": true,
+    "launchPath": "Moodle Dashboard → course Test → existing LTI activity",
+    "newValidatedLtiLaunchObserved": true,
+    "technicalUserId": "3",
+    "learnerModeObserved": true,
+    "restoredToolScore": 10,
+    "restoredHistoryDisplayOrder": [7, 0],
+    "restoredHistoryCount": 2,
+    "allRestoredHistoryDeliveriesConfirmed": true,
+    "currentDeliveryRequestCount": 1,
+    "gradebookScore": "10.00",
+    "gradebookRange": "0–10",
+    "sameActivityRow": true,
+    "newAttemptCreated": false,
+    "scoreSubmissionPerformed": false,
+    "manualGradeOverridesApplied": false,
+    "screenshots": {
+      "fullApp": "screenshots/gnomio-student1-normal-login-app.jpg",
+      "result": "screenshots/gnomio-student1-normal-login-result.jpg",
+      "history": "screenshots/gnomio-student1-normal-login-history.jpg",
+      "gradebook": "screenshots/gnomio-student1-normal-login-gradebook.jpg"
+    }
+  },
+  "staffLaunch": {
+    "account": "Existing administrator with course Teacher role",
+    "technicalUserId": "2",
+    "readOnlyUiVerified": true,
+    "submitDisabled": true,
+    "gradeSubmitted": false,
+    "nonAdminInstructorVerified": false,
+    "screenshot": "screenshots/gnomio-lti-instructor.jpg"
+  },
+  "secondLearnerCheck": {
+    "checkedAt": "2026-10-11T10:17:42Z",
+    "username": "student2",
+    "technicalUserId": "4",
+    "syntheticAccount": true,
+    "accountCreatedByUser": true,
+    "passwordEntryAndSubmissionCompletedByUser": true,
+    "credentialsCaptured": false,
+    "courseEnrolmentRole": "Student",
+    "authenticationMethod": "Standalone learner sign-in; password entered privately by user",
+    "impersonationUsed": false,
+    "launchPath": "Moodle Dashboard -> course Test -> existing LTI activity",
+    "newValidatedLtiLaunchObserved": true,
+    "learnerModeObserved": true,
+    "initialCurrentAttempt": null,
+    "initialHistoryCount": 0,
+    "answers": { "q1": "", "q2": "", "q3": "" },
+    "expectedScore": 0,
+    "toolScore": 0,
+    "deliveryConfirmedInTool": true,
+    "gradebookScore": "0.00",
+    "gradebookRange": "0-10",
+    "afterReload": {
+      "toolScore": 0,
+      "historyCount": 0,
+      "deliveryRequestCount": 1,
+      "student1HistoryVisible": false,
+      "newAttemptCreated": false,
+      "scoreResubmitted": false
+    },
+    "finalReceiverCheck": {
+      "method": "Actual Moodle Grader report read under administrator after B submission",
+      "url": "https://eoweblab.gnomio.com/grade/report/grader/index.php?id=2",
+      "student1Score": "10.00",
+      "student2Score": "0.00",
+      "sharedGradeItemId": "5",
+      "sameLtiActivityColumn": true,
+      "ltiActivityColumnsObserved": 1,
+      "student1GradeUnchanged": true,
+      "manualGradeOverridesApplied": false,
+      "existingScormActivitiesChanged": false
+    },
+    "screenshots": {
+      "initialSession": "screenshots/gnomio-student2-initial.jpg",
+      "fullApp": "screenshots/gnomio-student2-0-app.jpg",
+      "result": "screenshots/gnomio-student2-0-result.jpg",
+      "history": "screenshots/gnomio-student2-history.jpg",
+      "learnerGradebook": "screenshots/gnomio-student2-grade-0.jpg",
+      "bothLearnersGradebook": "screenshots/gnomio-gradebook-final-10-0.jpg"
+    },
+    "isolationBoundary": "B received a new user-4 session with no current attempt and no prior history. After B submission/reload, A's history grades 7 and 0 were not shown. Administrator corroborated A remained 10 and B was 0 in shared grade item 5. Reciprocal A history was not relaunched after this B check; its earlier standalone restoration is recorded separately."
+  },
+  "additionalScreenshots": {
+    "registration": "screenshots/gnomio-lti-registration.jpg",
+    "learnerFinalAndHistory": "screenshots/gnomio-lti-student1-10.jpg"
+  },
+  "notVerified": [
+    "Non-administrator Instructor account in Gnomio",
+    "400/403 negative requests with authenticated Gnomio LTI sessions",
+    "Moodle grade history database/source attribution",
+    "Automatic startup after Helios reboot",
+    "Production isolation on a separate origin and redaction of shared server access logs"
+  ],
+  "git": { "staged": false, "committed": false, "pushed": false },
+  "evidenceBoundary": "Real signed Moodle launches and real OAuth/AGS through the HTTPS Helios PHP gateway, Node.js and MongoDB. Initial A 0/7/10 sequence used native impersonation and was corroborated by actual Moodle User report. Subsequent A standalone sign-in restored 10/10 and own history without new submission. B standalone sign-in started with no attempt/history, submitted 0/10 and retained only its own result after reload. Actual administrator Grader report then showed A=10 and B=0 in the same existing LTI grade item 5. Non-admin Instructor and live authenticated 400/403 in Gnomio are not claimed."
+}

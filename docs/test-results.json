@@ -1,0 +1,33 @@
+{
+  "checkedAt": "2026-10-11T10:11:24Z",
+  "command": "npm test",
+  "nodeVersion": "v24.10.0",
+  "npmVersion": "11.12.1",
+  "operatingSystem": "macOS ARM64",
+  "exitCode": 0,
+  "tests": 63,
+  "passed": 63,
+  "failed": 0,
+  "cancelled": 0,
+  "skipped": 0,
+  "todo": 0,
+  "durationMs": 5060.343208,
+  "ownTopicTest": {
+    "file": "test/grading.test.mjs",
+    "name": "Вчерашний INDEX не засчитывается как источник текущей цены и наличия",
+    "answers": { "q1": "rag", "q2": "embedding", "q3": "INDEX" },
+    "expectedScore": 6,
+    "scoreMaximum": 10,
+    "passed": true
+  },
+  "additionalChecks": {
+    "npmRunLint": { "exitCode": 0, "maxWarnings": 0 },
+    "npmRunFormatCheck": { "exitCode": 0, "allMatchedFilesFormatted": true },
+    "gitDiffCheck": { "exitCode": 0 },
+    "fullMakeCheckCiRepeated": false,
+    "historicalDockerTests": "59/59 at the previous local Moodle stage; not rerun for this documentation-only submission step"
+  },
+  "evidenceBoundary": "Native Node.js automated tests. LTI integration tests use real ltijs, signed tokens and HTTP, but replace Moodle and the ltijs database adapter with test implementations. They are separate from real local Moodle and Gnomio browser/receiver checks. No real learner credentials or live grade submission are used by npm test.",
+  "localMoodleContainersStarted": false,
+  "remoteGithubCiRun": false
+}

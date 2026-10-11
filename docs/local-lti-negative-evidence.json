@@ -1,0 +1,290 @@
+{
+  "checkedAt": "2026-10-10T13:53:41.460Z",
+  "evidenceBoundary": "Real local Moodle login and signed OIDC/LTI launches, normal ltijs server with MongoDB. HTTP protocol client, not mock JWTs or browser DevTools. Each rejection is followed by read-only Moodle queries and SHA-256 comparison of learner attempt files.",
+  "localOnly": true,
+  "httpsVerified": false,
+  "courseId": "2",
+  "courseModuleId": "2",
+  "resourceId": "1",
+  "student": {
+    "userId": "4",
+    "learner": true,
+    "roles": ["http://purl.imsglobal.org/vocab/lis/v2/membership#Learner"]
+  },
+  "instructor": {
+    "username": "lti_instructor",
+    "userId": "5",
+    "siteAdmin": false,
+    "courseRoles": ["teacher"],
+    "gradeRows": 0,
+    "gradeHistoryRows": 0,
+    "learner": false,
+    "roles": ["http://purl.imsglobal.org/vocab/lis/v2/membership#Instructor"]
+  },
+  "checks": [
+    {
+      "name": "Подмена userId",
+      "actor": "4",
+      "method": "POST",
+      "route": "/api/submit",
+      "expectedStatus": 400,
+      "actualStatus": 400,
+      "code": "invalid_body",
+      "message": "Допустимые поля запроса: requestId, answers.",
+      "gradesUnchanged": true,
+      "attemptsUnchanged": true
+    },
+    {
+      "name": "Готовый scoreGiven из браузера",
+      "actor": "4",
+      "method": "POST",
+      "route": "/api/submit",
+      "expectedStatus": 400,
+      "actualStatus": 400,
+      "code": "invalid_body",
+      "message": "Допустимые поля запроса: requestId, answers.",
+      "gradesUnchanged": true,
+      "attemptsUnchanged": true
+    },
+    {
+      "name": "Отсутствует q3",
+      "actor": "4",
+      "method": "POST",
+      "route": "/api/submit",
+      "expectedStatus": 400,
+      "actualStatus": 400,
+      "code": "AnswersValidationError",
+      "message": "Нужны ровно три ключа: q1, q2, q3.",
+      "gradesUnchanged": true,
+      "attemptsUnchanged": true
+    },
+    {
+      "name": "POST без CSRF",
+      "actor": "4",
+      "method": "POST",
+      "route": "/api/submit",
+      "expectedStatus": 403,
+      "actualStatus": 403,
+      "code": "invalid_csrf",
+      "message": "Неверный CSRF-токен. Обновите страницу тренажёра.",
+      "gradesUnchanged": true,
+      "attemptsUnchanged": true
+    },
+    {
+      "name": "POST с неверным CSRF",
+      "actor": "4",
+      "method": "POST",
+      "route": "/api/submit",
+      "expectedStatus": 403,
+      "actualStatus": 403,
+      "code": "invalid_csrf",
+      "message": "Неверный CSRF-токен. Обновите страницу тренажёра.",
+      "gradesUnchanged": true,
+      "attemptsUnchanged": true
+    },
+    {
+      "name": "POST без Origin",
+      "actor": "4",
+      "method": "POST",
+      "route": "/api/submit",
+      "expectedStatus": 403,
+      "actualStatus": 403,
+      "code": "cross_origin",
+      "message": "Запрос должен приходить из страницы тренажёра.",
+      "gradesUnchanged": true,
+      "attemptsUnchanged": true
+    },
+    {
+      "name": "POST с чужим Origin",
+      "actor": "4",
+      "method": "POST",
+      "route": "/api/submit",
+      "expectedStatus": 403,
+      "actualStatus": 403,
+      "code": "cross_origin",
+      "message": "Запрос должен приходить из страницы тренажёра.",
+      "gradesUnchanged": true,
+      "attemptsUnchanged": true
+    },
+    {
+      "name": "Instructor: отправка оценки",
+      "actor": "5",
+      "method": "POST",
+      "route": "/api/submit",
+      "expectedStatus": 403,
+      "actualStatus": 403,
+      "code": "read_only",
+      "message": "Этот запуск доступен только для просмотра. Оценки отправляются только для роли Learner.",
+      "gradesUnchanged": true,
+      "attemptsUnchanged": true
+    },
+    {
+      "name": "Instructor: новая попытка",
+      "actor": "5",
+      "method": "POST",
+      "route": "/api/new-attempt",
+      "expectedStatus": 403,
+      "actualStatus": 403,
+      "code": "read_only",
+      "message": "Этот запуск доступен только для просмотра. Оценки отправляются только для роли Learner.",
+      "gradesUnchanged": true,
+      "attemptsUnchanged": true
+    }
+  ],
+  "before": {
+    "gradeItemId": "2",
+    "ltiGradeItemCount": 1,
+    "learners": [
+      {
+        "username": "lti_student_a",
+        "userId": "3",
+        "grade": 10,
+        "history": [
+          {
+            "id": "1",
+            "source": "modltiservice_gradebookservices",
+            "rawgrade": "0.00000",
+            "finalgrade": "0.00000",
+            "timemodified": "1791636850"
+          },
+          {
+            "id": "4",
+            "source": "modltiservice_gradebookservices",
+            "rawgrade": "7.00000",
+            "finalgrade": "7.00000",
+            "timemodified": "1791636876"
+          },
+          {
+            "id": "6",
+            "source": "modltiservice_gradebookservices",
+            "rawgrade": "10.00000",
+            "finalgrade": "10.00000",
+            "timemodified": "1791636891"
+          }
+        ]
+      },
+      {
+        "username": "lti_student_b",
+        "userId": "4",
+        "grade": 7,
+        "history": [
+          {
+            "id": "8",
+            "source": "modltiservice_gradebookservices",
+            "rawgrade": "0.00000",
+            "finalgrade": "0.00000",
+            "timemodified": "1791636981"
+          },
+          {
+            "id": "11",
+            "source": "modltiservice_gradebookservices",
+            "rawgrade": "7.00000",
+            "finalgrade": "7.00000",
+            "timemodified": "1791636999"
+          },
+          {
+            "id": "13",
+            "source": "modltiservice_gradebookservices",
+            "rawgrade": "10.00000",
+            "finalgrade": "10.00000",
+            "timemodified": "1791637016"
+          },
+          {
+            "id": "15",
+            "source": "modltiservice_gradebookservices",
+            "rawgrade": "7.00000",
+            "finalgrade": "7.00000",
+            "timemodified": "1791639684"
+          }
+        ]
+      }
+    ],
+    "instructor": {
+      "username": "lti_instructor",
+      "userId": "5",
+      "siteAdmin": false,
+      "courseRoles": ["teacher"],
+      "gradeRows": 0,
+      "gradeHistoryRows": 0
+    }
+  },
+  "after": {
+    "gradeItemId": "2",
+    "ltiGradeItemCount": 1,
+    "learners": [
+      {
+        "username": "lti_student_a",
+        "userId": "3",
+        "grade": 10,
+        "history": [
+          {
+            "id": "1",
+            "source": "modltiservice_gradebookservices",
+            "rawgrade": "0.00000",
+            "finalgrade": "0.00000",
+            "timemodified": "1791636850"
+          },
+          {
+            "id": "4",
+            "source": "modltiservice_gradebookservices",
+            "rawgrade": "7.00000",
+            "finalgrade": "7.00000",
+            "timemodified": "1791636876"
+          },
+          {
+            "id": "6",
+            "source": "modltiservice_gradebookservices",
+            "rawgrade": "10.00000",
+            "finalgrade": "10.00000",
+            "timemodified": "1791636891"
+          }
+        ]
+      },
+      {
+        "username": "lti_student_b",
+        "userId": "4",
+        "grade": 7,
+        "history": [
+          {
+            "id": "8",
+            "source": "modltiservice_gradebookservices",
+            "rawgrade": "0.00000",
+            "finalgrade": "0.00000",
+            "timemodified": "1791636981"
+          },
+          {
+            "id": "11",
+            "source": "modltiservice_gradebookservices",
+            "rawgrade": "7.00000",
+            "finalgrade": "7.00000",
+            "timemodified": "1791636999"
+          },
+          {
+            "id": "13",
+            "source": "modltiservice_gradebookservices",
+            "rawgrade": "10.00000",
+            "finalgrade": "10.00000",
+            "timemodified": "1791637016"
+          },
+          {
+            "id": "15",
+            "source": "modltiservice_gradebookservices",
+            "rawgrade": "7.00000",
+            "finalgrade": "7.00000",
+            "timemodified": "1791639684"
+          }
+        ]
+      }
+    ],
+    "instructor": {
+      "username": "lti_instructor",
+      "userId": "5",
+      "siteAdmin": false,
+      "courseRoles": ["teacher"],
+      "gradeRows": 0,
+      "gradeHistoryRows": 0
+    }
+  },
+  "attemptFileCount": 2,
+  "attemptFilesUnchanged": true
+}

@@ -1,6 +1,8 @@
 # Подключение к Moodle / Gnomio
 
-Этот шаг — после получения публичного HTTPS-адреса. Сейчас готов локальный стенд; регистрация и реальный журнал Gnomio ещё не проверялись.
+Эта инструкция — для удалённого Moodle/Gnomio. Публичный HTTPS-стенд размещён на Helios; его точные URL и команды — в [helios.md](helios.md). 11.10.2026 реальный Gnomio зарегистрирован: проверены запуск и оценки 0/7/10 для вымышленного `student1` через Moodle «Войти как», итог — 10; администратор с ролью Teacher получает только просмотр. После самостоятельного входа пользователя под `student1` новый запуск из курса восстановил 10/10 и историю 0/7, оценка в журнале сохранилась. Второй вымышленный `student2` вошёл обычным способом и получил 0/10; его история не показала попытки первого ученика. Настоящий Grader report подтвердил 10/0 в одной колонке, без ручной правки. Отдельный неадминистративный Instructor в Gnomio пока не проверен. [Протокол](gnomio-lti-evidence.json).
+
+Настоящее **локальное** подключение Moodle 5.3 проверено отдельно с оценками 0/7/10 под двумя студентами и итогом А = 10 / Б = 7; его команды — в [local-lti.md](local-lti.md).
 
 ## 1. Поднять обычный сервер
 
@@ -16,39 +18,39 @@
 
 Названия меню зависят от Moodle и прав доступа. У администратора: Site administration → Plugins → Activity modules → External tool → Manage tools → configure a tool manually. В некоторых версиях управление инструментами доступно и внутри курса.
 
-| Поле Moodle | Значение для нашего сервера |
-| --- | --- |
-| Tool name | RAG-тренажёр: три задания |
-| LTI version | LTI 1.3 |
-| Tool URL | `https://trainer.example.org/lti/launch` |
-| Initiate login URL | `https://trainer.example.org/lti/login` |
-| Redirection URI(s) | `https://trainer.example.org/lti/launch` |
-| Public key type | Keyset URL / JWKS URL |
-| Public keyset URL | `https://trainer.example.org/lti/keys` |
-| Default launch container | New window |
+| Поле Moodle                           | Значение для нашего сервера                                      |
+| ------------------------------------- | ---------------------------------------------------------------- |
+| Tool name                             | RAG-тренажёр: три задания                                        |
+| LTI version                           | LTI 1.3                                                          |
+| Tool URL                              | `https://trainer.example.org/lti/launch`                         |
+| Initiate login URL                    | `https://trainer.example.org/lti/login`                          |
+| Redirection URI(s)                    | `https://trainer.example.org/lti/launch`                         |
+| Public key type                       | Keyset URL / JWKS URL                                            |
+| Public keyset URL                     | `https://trainer.example.org/lti/keys`                           |
+| Default launch container              | New window                                                       |
 | IMS LTI Assignment and Grade Services | Use this service for grade sync only / разрешить передачу оценок |
-| Names and Role Provisioning | Не требуется |
-| Deep Linking / content selection | Не требуется |
-| Share launcher's name | По желанию, для имени в интерфейсе |
-| Share launcher's email | Не требуется |
-| Accept grades from tool | Always / разрешить |
+| Names and Role Provisioning           | Не требуется                                                     |
+| Deep Linking / content selection      | Не требуется                                                     |
+| Share launcher's name                 | Never — для этого учебного стенда                                |
+| Share launcher's email                | Never                                                            |
+| Accept grades from tool               | Always / разрешить                                               |
 
-`trainer.example.org` — заглушка: замените на один реальный origin во всех полях. Ключи проверки подписей публичные; приватные ключи из MongoDB никогда не вставляются в Moodle.
+`https://trainer.example.org` — заглушка: замените на реальный `PUBLIC_URL` во всех полях, включая подпапку, если она используется. Ключи проверки подписей публичные; приватные ключи из MongoDB никогда не вставляются в Moodle.
 
-Для старого Moodle, где вместо JWKS требуется PEM, `/tool-public-key` отдаёт публичный PEM **после** регистрации платформы на сервере. В поле public key вставляется текст `-----BEGIN PUBLIC KEY-----...`, не URL. Этот вариант требует отдельной проверки; основной сценарий — JWKS.
+Если выбран поддерживаемый Moodle тип `RSA key`, `/tool-public-key` отдаёт публичный PEM **после** регистрации платформы на сервере. В поле public key вставляется текст `-----BEGIN PUBLIC KEY-----...`, не URL. Этот вариант проверен на локальном Moodle 5.3; совместимость со старым Moodle отдельно не проверялась. Основной сценарий удалённого подключения — JWKS.
 
 ## 3. Перенести реквизиты Moodle в .env
 
 После сохранения инструмента Configuration details показывает реквизиты платформы:
 
-| Реквизит Moodle | Переменная сервера |
-| --- | --- |
-| Platform ID / issuer | `MOODLE_ISSUER` |
-| Client ID | `MOODLE_CLIENT_ID` |
-| Deployment ID | `MOODLE_DEPLOYMENT_ID` |
-| Authentication request URL | `MOODLE_AUTH_URL` |
-| Access token URL | `MOODLE_TOKEN_URL` |
-| Public keyset URL платформы | `MOODLE_JWKS_URL` |
+| Реквизит Moodle             | Переменная сервера     |
+| --------------------------- | ---------------------- |
+| Platform ID / issuer        | `MOODLE_ISSUER`        |
+| Client ID                   | `MOODLE_CLIENT_ID`     |
+| Deployment ID               | `MOODLE_DEPLOYMENT_ID` |
+| Authentication request URL  | `MOODLE_AUTH_URL`      |
+| Access token URL            | `MOODLE_TOKEN_URL`     |
+| Public keyset URL платформы | `MOODLE_JWKS_URL`      |
 
 Копируйте точные значения, не выводите пути по имени сайта. JWKS Moodle — не `/lti/keys` нашего инструмента. Issuer чувствителен к отличиям строки, включая завершающий `/`. Заполните все шесть полей и перезапустите обычный сервер. Он создаст регистрацию и RSA-ключи в MongoDB; далее ключи сохраняются. `/healthz` станет `configured:true`; `/lti/keys` будет содержать публичный ключ инструмента.
 
@@ -57,6 +59,11 @@
 ## 4. Добавить элемент курса
 
 Edit mode → Add an activity or resource → External tool. Выбрать зарегистрированный инструмент; название: «RAG-рекомендательная система: три задания».
+
+В проверенном Gnomio сначала нужно включить инструмент в курсе: More → LTI External tools →
+Show in activity chooser. Затем в режиме редактирования выбрать Insert content → Activity or
+resource → «RAG-тренажёр · Helios · LTI 1.3». Отсутствие общего пункта External tool в chooser
+не означает, что LTI отключён.
 
 - Launch container — New window.
 - Grade type — Point / числовая оценка.

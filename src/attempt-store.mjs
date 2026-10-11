@@ -1,12 +1,20 @@
-import { createHash, randomUUID } from 'node:crypto';
-import { mkdir, open, readFile, rename, unlink } from 'node:fs/promises';
-import path from 'node:path';
+import { createHash, randomUUID } from "node:crypto";
+import { mkdir, open, readFile, rename, unlink } from "node:fs/promises";
+import path from "node:path";
 
 export function scopeKey(scope) {
-  return createHash('sha256').update(JSON.stringify([
-    scope.issuer, scope.clientId, scope.deploymentId,
-    scope.userId, scope.contextId, scope.resourceLinkId,
-  ])).digest('hex');
+  return createHash("sha256")
+    .update(
+      JSON.stringify([
+        scope.issuer,
+        scope.clientId,
+        scope.deploymentId,
+        scope.userId,
+        scope.contextId,
+        scope.resourceLinkId,
+      ]),
+    )
+    .digest("hex");
 }
 
 // Atomic replacement on a local filesystem. One Node process per directory.
@@ -22,10 +30,13 @@ export class AttemptStore {
   async init() {
     await mkdir(this.#directory, { recursive: true, mode: 0o700 });
     try {
-      this.#lock = await open(path.join(this.#directory, '.instance.lock'), 'wx', 0o600);
+      this.#lock = await open(path.join(this.#directory, ".instance.lock"), "wx", 0o600);
     } catch (error) {
-      if (error.code === 'EEXIST') {
-        throw new Error(`Каталог ${this.#directory} уже заблокирован. Разрешён один процесс; после аварийного завершения проверьте PID в .instance.lock перед удалением только этого файла.`);
+      if (error.code === "EEXIST") {
+        throw new Error(
+          `Каталог ${this.#directory} уже заблокирован. Разрешён один процесс; после аварийного завершения проверьте PID в .instance.lock перед удалением только этого файла.`,
+          { cause: error },
+        );
       }
       throw error;
     }
@@ -38,7 +49,7 @@ export class AttemptStore {
     if (this.#lock) {
       await this.#lock.close();
       this.#lock = null;
-      await unlink(path.join(this.#directory, '.instance.lock'));
+      await unlink(path.join(this.#directory, ".instance.lock"));
     }
   }
 
@@ -50,38 +61,51 @@ export class AttemptStore {
     try {
       return await running;
     } finally {
-      if (this.#queues.get(key) === running) this.#queues.delete(key);
+      if (this.#queues.get(key) === running) {
+        this.#queues.delete(key);
+      }
     }
   }
 
   async load(scope) {
     let source;
     try {
-      source = await readFile(this.#filename(scope), 'utf8');
+      source = await readFile(this.#filename(scope), "utf8");
     } catch (error) {
-      if (error.code === 'ENOENT') return { version: 1, scope, current: null, history: [], lastTimestamp: 0 };
+      if (error.code === "ENOENT") {
+        return { version: 1, scope, current: null, history: [], lastTimestamp: 0 };
+      }
       throw error;
     }
-    const state = JSON.parse(source);
-    if (state.version !== 1 || !state.scope || scopeKey(state.scope) !== scopeKey(scope)
-      || !Array.isArray(state.history) || !Number.isSafeInteger(state.lastTimestamp)
-      || !(state.current === null || ['pending', 'sent'].includes(state.current?.status))) {
-      throw new Error('Некорректное хранилище попыток: данные не будут сброшены автоматически.');
+    const snapshot = JSON.parse(source);
+    if (
+      snapshot.version !== 1 ||
+      !snapshot.scope ||
+      scopeKey(snapshot.scope) !== scopeKey(scope) ||
+      !Array.isArray(snapshot.history) ||
+      !Number.isSafeInteger(snapshot.lastTimestamp) ||
+      !(snapshot.current === null || ["pending", "sent"].includes(snapshot.current?.status))
+    ) {
+      throw new Error("Некорректное хранилище попыток: данные не будут сброшены автоматически.");
     }
-    return state;
+    return snapshot;
   }
 
-  async save(scope, state) {
+  async save(scope, snapshot) {
     const target = this.#filename(scope);
     const temporary = `${target}.${randomUUID()}.tmp`;
-    const handle = await open(temporary, 'wx', 0o600);
+    const handle = await open(temporary, "wx", 0o600);
     try {
-      await handle.writeFile(JSON.stringify(state, null, 2));
+      await handle.writeFile(JSON.stringify(snapshot, null, 2));
       await handle.sync();
       await handle.close();
       await rename(temporary, target);
-      const directory = await open(this.#directory, 'r');
-      try { await directory.sync(); } finally { await directory.close(); }
+      const directory = await open(this.#directory, "r");
+      try {
+        await directory.sync();
+      } finally {
+        await directory.close();
+      }
     } catch (error) {
       await handle.close().catch(() => {});
       await unlink(temporary).catch(() => {});

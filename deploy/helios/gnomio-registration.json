@@ -1,0 +1,8 @@
+{
+  "issuer": "https://eoweblab.gnomio.com",
+  "clientId": "QDIIlIIQWNH3yro",
+  "deploymentId": "1",
+  "authUrl": "https://eoweblab.gnomio.com/mod/lti/auth.php",
+  "tokenUrl": "https://eoweblab.gnomio.com/mod/lti/token.php",
+  "jwksUrl": "https://eoweblab.gnomio.com/mod/lti/certs.php"
+}

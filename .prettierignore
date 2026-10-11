@@ -1,0 +1,9 @@
+.git/
+node_modules/
+.env
+.env.*
+data/
+keys/
+coverage/
+package-lock.json
+docs/screenshots/

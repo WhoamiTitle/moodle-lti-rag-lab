@@ -10,10 +10,21 @@
   "scripts": {
     "start": "node --env-file-if-exists=.env src/server.mjs",
     "test": "node --test test/*.test.mjs",
+    "test:coverage": "node --test --experimental-test-coverage --test-coverage-include='src/**' test/*.test.mjs",
+    "lint": "eslint . --max-warnings=0",
+    "lint:fix": "eslint . --fix --max-warnings=0",
+    "format": "prettier . --write",
+    "format:check": "prettier . --check",
     "demo": "node scripts/local-demo.mjs"
   },
   "dependencies": {
     "express": "5.2.1",
     "ltijs": "7.0.7"
+  },
+  "devDependencies": {
+    "@eslint/js": "10.0.1",
+    "eslint": "10.12.0",
+    "globals": "17.13.0",
+    "prettier": "3.9.10"
   }
 }

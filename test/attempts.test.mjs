@@ -1,66 +1,92 @@
-import assert from 'node:assert/strict';
-import { randomUUID } from 'node:crypto';
-import { mkdtemp, readFile, rm } from 'node:fs/promises';
-import os from 'node:os';
-import path from 'node:path';
-import test from 'node:test';
-import { AttemptStore, scopeKey } from '../src/attempt-store.mjs';
-import { Attempts } from '../src/attempts.mjs';
+import assert from "node:assert/strict";
+import { randomUUID } from "node:crypto";
+import { mkdtemp, readFile, rm } from "node:fs/promises";
+import os from "node:os";
+import path from "node:path";
+import test from "node:test";
+import { AttemptStore, scopeKey } from "../src/attempt-store.mjs";
+import { Attempts } from "../src/attempts.mjs";
 
-const scope = { issuer: 'https://moodle.example', clientId: 'client', deploymentId: 'dep', userId: 'A', contextId: 'course', resourceLinkId: 'link' };
-const correct = { q1: 'rag', q2: 'embedding', q3: 'api' };
+const scope = {
+  issuer: "https://moodle.example",
+  clientId: "client",
+  deploymentId: "dep",
+  userId: "A",
+  contextId: "course",
+  resourceLinkId: "link",
+};
+const correct = { q1: "rag", q2: "embedding", q3: "api" };
 const silent = { warn() {} };
 
 async function fixture(t, options) {
-  const directory = await mkdtemp(path.join(os.tmpdir(), 'rag-attempts-test-'));
+  const directory = await mkdtemp(path.join(os.tmpdir(), "rag-attempts-test-"));
   const store = new AttemptStore(directory);
   await store.init();
-  t.after(async () => { await store.close(); await rm(directory, { recursive: true, force: true }); });
+  t.after(async () => {
+    await store.close();
+    await rm(directory, { recursive: true, force: true });
+  });
   return { store, attempts: new Attempts(store, { logger: silent, ...options }), directory };
 }
 
-test('Попытка и timestamp записаны на диск до внешнего эффекта', async (t) => {
+test("Попытка и timestamp записаны на диск до внешнего эффекта", async (t) => {
   const { attempts, directory } = await fixture(t);
   const requestId = randomUUID();
-  const outcome = await attempts.submit(scope, { requestId, answers: correct }, 'https://moodle.example/lineitem', async (score) => {
-    const state = JSON.parse(await readFile(path.join(directory, `${scopeKey(scope)}.json`), 'utf8'));
-    assert.equal(state.current.requestId, requestId);
-    assert.equal(state.current.status, 'pending');
-    assert.equal(state.current.deliveries, 1);
-    assert.equal(state.current.scoreGiven, 10);
-    assert.equal(state.current.deliveryTimestamp, score.timestamp);
-    assert.equal(score.userId, 'A');
-  });
-  assert.equal(outcome.status, 'sent');
+  const outcome = await attempts.submit(
+    scope,
+    { requestId, answers: correct },
+    "https://moodle.example/lineitem",
+    async (score) => {
+      const snapshot = JSON.parse(await readFile(path.join(directory, `${scopeKey(scope)}.json`), "utf8"));
+      assert.equal(snapshot.current.requestId, requestId);
+      assert.equal(snapshot.current.status, "pending");
+      assert.equal(snapshot.current.deliveries, 1);
+      assert.equal(snapshot.current.scoreGiven, 10);
+      assert.equal(snapshot.current.deliveryTimestamp, score.timestamp);
+      assert.equal(score.userId, "A");
+    },
+  );
+  assert.equal(outcome.status, "sent");
   assert.ok(outcome.sentAt);
 });
 
-test('Подтверждённый requestId не доставляется повторно даже из истории; изменённые ответы отклоняются', async (t) => {
+test("Подтверждённый requestId не доставляется повторно даже из истории; изменённые ответы отклоняются", async (t) => {
   const { attempts } = await fixture(t);
   const body = { requestId: randomUUID(), answers: correct };
   let calls = 0;
-  const deliver = async () => { calls += 1; };
-  await attempts.submit(scope, body, 'lineitem', deliver);
-  await attempts.submit(scope, body, 'lineitem', deliver);
+  const deliver = async () => {
+    calls += 1;
+  };
+  await attempts.submit(scope, body, "lineitem", deliver);
+  await attempts.submit(scope, body, "lineitem", deliver);
   await attempts.newAttempt(scope);
-  await attempts.submit(scope, { requestId: randomUUID(), answers: { q1: '', q2: '', q3: '' } }, 'lineitem', deliver);
-  const duplicate = await attempts.submit(scope, body, 'lineitem', deliver);
+  await attempts.submit(scope, { requestId: randomUUID(), answers: { q1: "", q2: "", q3: "" } }, "lineitem", deliver);
+  const duplicate = await attempts.submit(scope, body, "lineitem", deliver);
+  assert.equal(duplicate.duplicate, true);
   assert.equal(duplicate.scoreGiven, 10);
   assert.equal(calls, 2);
   assert.equal((await attempts.snapshot(scope)).current.scoreGiven, 0);
-  await assert.rejects(attempts.submit(scope, { ...body, answers: { ...correct, q3: '' } }, 'lineitem', deliver), { status: 409, code: 'request_id_reused' });
+  await assert.rejects(attempts.submit(scope, { ...body, answers: { ...correct, q3: "" } }, "lineitem", deliver), {
+    status: 409,
+    code: "request_id_reused",
+  });
 });
 
-test('Pending переживает перезапуск; новая попытка и другая колонка заблокированы; timestamp возрастает при откате часов', async (t) => {
+test("Pending переживает перезапуск; новая попытка и другая колонка заблокированы; timestamp возрастает при откате часов", async (t) => {
   let now = 200_000;
   const { attempts, store, directory } = await fixture(t, { clock: () => now });
-  const body = { requestId: randomUUID(), answers: { q1: 'rag', q2: '', q3: 'api' } };
-  const lineItem = 'https://moodle.example/lineitem';
-  const first = await attempts.submit(scope, body, lineItem, async () => { throw Object.assign(new Error('Unavailable'), { status: 503 }); });
-  assert.equal(first.status, 'pending');
+  const body = { requestId: randomUUID(), answers: { q1: "rag", q2: "", q3: "api" } };
+  const lineItem = "https://moodle.example/lineitem";
+  const first = await attempts.submit(scope, body, lineItem, async () => {
+    throw Object.assign(new Error("Unavailable"), { status: 503 });
+  });
+  assert.equal(first.status, "pending");
   assert.equal(first.scoreGiven, 7);
-  await assert.rejects(attempts.newAttempt(scope), { status: 409, code: 'delivery_pending' });
-  await assert.rejects(attempts.submit(scope, body, 'https://moodle.example/other', async () => {}), { code: 'line_item_changed' });
+  await assert.rejects(attempts.newAttempt(scope), { status: 409, code: "delivery_pending" });
+  await assert.rejects(
+    attempts.submit(scope, body, "https://moodle.example/other", async () => {}),
+    { code: "line_item_changed" },
+  );
   await store.close();
   const restarted = new AttemptStore(directory);
   await restarted.init();
@@ -68,8 +94,10 @@ test('Pending переживает перезапуск; новая попытк
     const service = new Attempts(restarted, { clock: () => now, logger: silent });
     now = 100_000;
     let delivered;
-    const result = await service.submit(scope, body, lineItem, async (score) => { delivered = score; });
-    assert.equal(result.status, 'sent');
+    const result = await service.submit(scope, body, lineItem, async (score) => {
+      delivered = score;
+    });
+    assert.equal(result.status, "sent");
     assert.equal(result.deliveries, 2);
     assert.equal(result.scoreGiven, 7);
     assert.equal(Date.parse(delivered.timestamp), 200_001);
@@ -82,9 +110,9 @@ test('Pending переживает перезапуск; новая попытк
   }
 });
 
-test('Хранилище изолирует пользователя, регистрацию, deployment, курс и resource link', async (t) => {
+test("Хранилище изолирует пользователя, регистрацию, deployment, курс и resource link", async (t) => {
   const { attempts } = await fixture(t);
-  await attempts.submit(scope, { requestId: randomUUID(), answers: correct }, 'line', async () => {});
+  await attempts.submit(scope, { requestId: randomUUID(), answers: correct }, "line", async () => {});
   for (const field of Object.keys(scope)) {
     const different = { ...scope, [field]: `other-${scope[field]}` };
     assert.notEqual(scopeKey(scope), scopeKey(different));
@@ -92,19 +120,46 @@ test('Хранилище изолирует пользователя, регис
   }
 });
 
-test('Один каталог нельзя одновременно открыть двумя процессами/экземплярами', async (t) => {
+test("DTO стартера не меняет сохранённый формат попытки и не раскрывает lineItemId", async (t) => {
+  const { attempts, directory } = await fixture(t);
+  const body = { requestId: randomUUID(), answers: correct };
+  await attempts.submit(scope, body, "https://moodle.example/lineitem", async () => {});
+  const filename = path.join(directory, `${scopeKey(scope)}.json`);
+  const before = await readFile(filename, "utf8");
+  const stored = JSON.parse(before);
+  assert.equal(stored.version, 1);
+  assert.equal(stored.current.lineItemId, "https://moodle.example/lineitem");
+  for (const derived of ["id", "answerSignature", "lastDeliveryAt", "duplicate"]) {
+    assert.ok(!Object.hasOwn(stored.current, derived));
+  }
+  const { current } = await attempts.snapshot(scope);
+  assert.equal(current.id, body.requestId);
+  assert.equal(current.answerSignature, JSON.stringify(["rag", "embedding", "api"]));
+  assert.equal(current.lastDeliveryAt, stored.current.deliveryTimestamp);
+  assert.ok(!Object.hasOwn(current, "lineItemId"));
+  assert.equal(await readFile(filename, "utf8"), before);
+});
+
+test("Один каталог нельзя одновременно открыть двумя процессами/экземплярами", async (t) => {
   const { directory } = await fixture(t);
   const second = new AttemptStore(directory);
   await assert.rejects(second.init(), /Разрешён один процесс/);
 });
 
-test('Неуспешное локальное сохранение предотвращает AGS-вызов', async () => {
+test("Неуспешное локальное сохранение предотвращает AGS-вызов", async () => {
   let calls = 0;
   const service = new Attempts({
     run: (_scope, operation) => operation(),
     load: async () => ({ current: null, history: [], lastTimestamp: 0 }),
-    save: async () => { throw new Error('Disk full'); },
+    save: async () => {
+      throw new Error("Disk full");
+    },
   });
-  await assert.rejects(service.submit(scope, { requestId: randomUUID(), answers: correct }, 'line', async () => { calls += 1; }), /Disk full/);
+  await assert.rejects(
+    service.submit(scope, { requestId: randomUUID(), answers: correct }, "line", async () => {
+      calls += 1;
+    }),
+    /Disk full/,
+  );
   assert.equal(calls, 0);
 });

@@ -1,0 +1,145 @@
+{
+  "checkedAt": "2026-10-11T08:52:16.821Z",
+  "timezone": "Asia/Yakutsk",
+  "publicUrl": "https://se.ifmo.ru/~s507353/moodle-lti-rag",
+  "health": {
+    "ok": true,
+    "configured": false
+  },
+  "checks": [
+    {
+      "method": "GET",
+      "route": "/healthz",
+      "status": 200,
+      "contentType": "application/json; charset=utf-8"
+    },
+    {
+      "method": "GET",
+      "route": "/",
+      "status": 200,
+      "contentType": "text/html; charset=utf-8"
+    },
+    {
+      "method": "GET",
+      "route": "/assets/app.css",
+      "status": 200,
+      "contentType": "text/css; charset=utf-8"
+    },
+    {
+      "method": "GET",
+      "route": "/assets/app.js",
+      "status": 200,
+      "contentType": "text/javascript; charset=utf-8"
+    },
+    {
+      "method": "GET",
+      "route": "/assets/api.js",
+      "status": 200,
+      "contentType": "text/javascript; charset=utf-8"
+    },
+    {
+      "method": "GET",
+      "route": "/lti/keys",
+      "status": 200,
+      "contentType": "application/json; charset=utf-8"
+    },
+    {
+      "method": "GET",
+      "route": "/app",
+      "status": 401,
+      "contentType": "text/html; charset=utf-8"
+    },
+    {
+      "method": "GET",
+      "route": "/api/session",
+      "status": 401,
+      "contentType": "application/json; charset=utf-8"
+    },
+    {
+      "method": "GET",
+      "route": "/app/",
+      "status": 308,
+      "contentType": "text/plain; charset=utf-8",
+      "location": "/~s507353/moodle-lti-rag/app"
+    },
+    {
+      "method": "POST",
+      "route": "/lti/login",
+      "status": 503,
+      "contentType": "application/json; charset=utf-8"
+    },
+    {
+      "method": "POST",
+      "route": "/lti/login",
+      "status": 400,
+      "contentType": "application/json; charset=utf-8"
+    },
+    {
+      "method": "GET",
+      "route": "/package.json",
+      "status": 404,
+      "contentType": "application/json; charset=utf-8"
+    },
+    {
+      "method": "GET",
+      "route": "/src/config.mjs",
+      "status": 404,
+      "contentType": "application/json; charset=utf-8"
+    },
+    {
+      "method": "GET",
+      "route": "/data/attempts",
+      "status": 404,
+      "contentType": "application/json; charset=utf-8"
+    },
+    {
+      "method": "GET",
+      "route": "/not-found",
+      "status": 404,
+      "contentType": "application/json; charset=utf-8"
+    },
+    {
+      "method": "DELETE",
+      "route": "/healthz",
+      "status": 405,
+      "contentType": "application/json; charset=utf-8"
+    }
+  ],
+  "runtime": {
+    "os": "FreeBSD 14.5-STABLE amd64",
+    "node": "24.21.0",
+    "mongodb": "8.0.29",
+    "nodeListen": "127.0.0.1:30353",
+    "mongoListen": "private Unix socket only",
+    "privateDirectoryMode": "700",
+    "envMode": "600",
+    "socketMode": "700",
+    "approximateDiskUsage": "182M (du -sh)"
+  },
+  "verification": {
+    "checkCi": {
+      "passed": 63,
+      "failed": 0,
+      "skipped": 0
+    },
+    "testDocker": {
+      "passed": 63,
+      "failed": 0,
+      "skipped": 0
+    },
+    "portfolioFrontend": {
+      "passed": 10,
+      "failed": 0,
+      "skipped": 0
+    },
+    "gatewayTransport": "POST/body/headers, 303, two Set-Cookie, HEAD, 400/403/405/413/502 passed",
+    "portfolioAndMkdocs": "200 before/after; response bodies identical",
+    "browserLanding": "Public HTTPS landing page renders correctly; saved docs/screenshots/helios-https-landing.jpg"
+  },
+  "notVerified": [
+    "Gnomio LTI launch and AGS delivery",
+    "automatic startup after Helios reboot",
+    "upstream access-log query-string redaction"
+  ],
+  "git": "Local changes only; no commit or push. Existing GitHub portfolio workflow not updated."
+}

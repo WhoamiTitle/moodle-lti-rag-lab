@@ -1,0 +1,114 @@
+{
+  "date": "2026-10-10",
+  "environment": {
+    "moodle": "5.3 (Build 20261005)",
+    "postgres": "17.11",
+    "mongo": "8.0.32",
+    "node": "24.10.0",
+    "tool": "ltijs 7.0.7 / Express 5.2.1",
+    "localOnly": true,
+    "httpsVerified": false
+  },
+  "courseId": "2",
+  "courseModuleId": "2",
+  "ltiResourceLinkId": "1",
+  "gradeItemId": "2",
+  "gradeMaximum": 10,
+  "gradeSteps": [
+    {
+      "step": "A0",
+      "studentA": 0,
+      "studentB": null,
+      "ltiGradeItemCount": 1
+    },
+    {
+      "step": "A7",
+      "studentA": 7,
+      "studentB": null,
+      "ltiGradeItemCount": 1
+    },
+    {
+      "step": "A10",
+      "studentA": 10,
+      "studentB": null,
+      "ltiGradeItemCount": 1
+    },
+    {
+      "step": "B0",
+      "studentA": 10,
+      "studentB": 0,
+      "ltiGradeItemCount": 1
+    },
+    {
+      "step": "B7",
+      "studentA": 10,
+      "studentB": 7,
+      "ltiGradeItemCount": 1
+    },
+    {
+      "step": "B10",
+      "studentA": 10,
+      "studentB": 10,
+      "ltiGradeItemCount": 1
+    }
+  ],
+  "moodleGradeHistory": [
+    {
+      "username": "lti_student_a",
+      "userId": "3",
+      "grade": 10,
+      "history": [
+        {
+          "id": "1",
+          "source": "modltiservice_gradebookservices",
+          "rawgrade": "0.00000",
+          "finalgrade": "0.00000",
+          "timemodified": "1791636850"
+        },
+        {
+          "id": "4",
+          "source": "modltiservice_gradebookservices",
+          "rawgrade": "7.00000",
+          "finalgrade": "7.00000",
+          "timemodified": "1791636876"
+        },
+        {
+          "id": "6",
+          "source": "modltiservice_gradebookservices",
+          "rawgrade": "10.00000",
+          "finalgrade": "10.00000",
+          "timemodified": "1791636891"
+        }
+      ]
+    },
+    {
+      "username": "lti_student_b",
+      "userId": "4",
+      "grade": 10,
+      "history": [
+        {
+          "id": "8",
+          "source": "modltiservice_gradebookservices",
+          "rawgrade": "0.00000",
+          "finalgrade": "0.00000",
+          "timemodified": "1791636981"
+        },
+        {
+          "id": "11",
+          "source": "modltiservice_gradebookservices",
+          "rawgrade": "7.00000",
+          "finalgrade": "7.00000",
+          "timemodified": "1791636999"
+        },
+        {
+          "id": "13",
+          "source": "modltiservice_gradebookservices",
+          "rawgrade": "10.00000",
+          "finalgrade": "10.00000",
+          "timemodified": "1791637016"
+        }
+      ]
+    }
+  ],
+  "evidenceBoundary": "Real Moodle form_post launches in the browser, real ltijs/MongoDB/OAuth/AGS, independent read-only Moodle gradebook queries. No grade inserts or overrides from setup helpers."
+}

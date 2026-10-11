@@ -1,0 +1,8 @@
+*
+!Dockerfile
+!config.php
+!install.php
+!health.php
+!lti-lab.php
+!fallback.conf
+!20-routing.sh

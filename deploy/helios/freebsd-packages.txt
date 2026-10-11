@@ -1,0 +1,20 @@
+# FreeBSD:14:amd64/latest; selected from the official package catalog on 2026-10-11.
+# Runtime archives are extracted privately; no pkg scripts or system installation.
+All/Hashed/node24-24.21.0_1~2$hohmqr4b.pkg
+All/Hashed/libada-3.4.4~2$8dskzkb1.pkg
+All/Hashed/libuv-1.52.1~2$xiorcn47.pkg
+All/Hashed/libnghttp2-1.70.0~2$ix4fozdh.pkg
+All/Hashed/llhttp-9.4.3~2$8nkuds55.pkg
+All/Hashed/uvwasi-0.0.23~2$w1o6igoi.pkg
+All/Hashed/simdjson-5.0.1~2$7ouyajip.pkg
+All/Hashed/nbytes-0.1.4~2$3f9c95r5.pkg
+All/Hashed/merve-1.2.2_3~2$mxctx957.pkg
+All/Hashed/simdutf-9.2.1~2$mtpjd38e.pkg
+All/Hashed/libnghttp3-1.18.0~2$cpsb58e9.pkg
+All/Hashed/libngtcp2-1.25.0~2$kbyxwpdq.pkg
+All/Hashed/hdr_histogram-0.11.10~2$8c8prq4c.pkg
+All/Hashed/googletest-1.16.0~2$mtdo7cg1.pkg
+All/Hashed/c-ares-1.34.8~2$twykrxp5.pkg
+All/Hashed/brotli-1.2.0,1~2$tnga17he.pkg
+All/Hashed/npm-node24-12.0.2~2$t6jtwq8f.pkg
+All/Hashed/mongodb80-8.0.29~2$oqpdk444.pkg
