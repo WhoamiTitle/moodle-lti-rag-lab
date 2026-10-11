@@ -1,17 +1,22 @@
 {
-  "checkedAt": "2026-10-11T10:11:24Z",
-  "command": "npm test",
+  "checkedAt": "2026-10-11T12:45:22Z",
+  "timezone": "Asia/Yakutsk",
+  "command": "make check-ci",
+  "testCommand": "npm test",
   "nodeVersion": "v24.10.0",
   "npmVersion": "11.12.1",
   "operatingSystem": "macOS ARM64",
   "exitCode": 0,
-  "tests": 63,
-  "passed": 63,
+  "tests": 68,
+  "passed": 68,
   "failed": 0,
   "cancelled": 0,
   "skipped": 0,
   "todo": 0,
-  "durationMs": 5060.343208,
+  "durationMs": 3894.981583,
+  "durationScope": "Node.js test runner only, not the entire make check-ci command",
+  "newDiagnosticSafetyTests": 5,
+  "realGnomioHttpChecksIncluded": false,
   "ownTopicTest": {
     "file": "test/grading.test.mjs",
     "name": "Вчерашний INDEX не засчитывается как источник текущей цены и наличия",
@@ -24,10 +29,14 @@
     "npmRunLint": { "exitCode": 0, "maxWarnings": 0 },
     "npmRunFormatCheck": { "exitCode": 0, "allMatchedFilesFormatted": true },
     "gitDiffCheck": { "exitCode": 0 },
-    "fullMakeCheckCiRepeated": false,
-    "historicalDockerTests": "59/59 at the previous local Moodle stage; not rerun for this documentation-only submission step"
+    "shellChecks": { "shellCheckExitCode": 0, "shfmtExitCode": 0, "bashSyntaxExitCode": 0 },
+    "phpLint": { "exitCode": 0 },
+    "fullMakeCheckCiRepeated": true,
+    "historicalDockerTests": "63/63 before the five new diagnostic safety tests; isolated Docker tests not rerun for this follow-up"
   },
+  "previousNativeRun": { "checkedAt": "2026-10-11T10:11:24Z", "command": "npm test", "passed": 63, "failed": 0 },
   "evidenceBoundary": "Native Node.js automated tests. LTI integration tests use real ltijs, signed tokens and HTTP, but replace Moodle and the ltijs database adapter with test implementations. They are separate from real local Moodle and Gnomio browser/receiver checks. No real learner credentials or live grade submission are used by npm test.",
   "localMoodleContainersStarted": false,
-  "remoteGithubCiRun": false
+  "remoteGithubCiRun": false,
+  "remoteGithubCiScope": "This local follow-up only; no new commit, push or remote workflow dispatch"
 }

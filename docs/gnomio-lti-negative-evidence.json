@@ -1,0 +1,237 @@
+{
+  "checkedAt": "2026-10-11T12:03:30.949Z",
+  "recordedAt": "2026-10-11T12:40:28Z",
+  "timezone": "Asia/Yakutsk",
+  "stage": "Both Instructor rejections and five student2 negative requests verified; receiver grades and attempt digests unchanged",
+  "environment": {
+    "platform": "https://eoweblab.gnomio.com",
+    "publicUrl": "https://se.ifmo.ru/~s507353/moodle-lti-rag",
+    "courseId": "2",
+    "courseModuleId": "6",
+    "realPlatform": true,
+    "syntheticAccountsOnly": true,
+    "registrationChanged": false,
+    "applicationRedeployed": false,
+    "publicUnauthenticatedChecks": { "command": "node scripts/verify-helios-public.mjs", "passed": 16, "failed": 0 }
+  },
+  "nonAdminTeacherLaunch": {
+    "username": "instructor1",
+    "technicalUserId": "5",
+    "accountCreatedByUser": true,
+    "courseRole": "Non-editing teacher",
+    "courseRoleId": "4",
+    "courseContextId": "16",
+    "siteAdministrator": false,
+    "siteAdministratorIdsObservedBeforeLogin": ["2"],
+    "ordinaryLoginCompletedByUser": true,
+    "credentialsCaptured": false,
+    "impersonationUsed": false,
+    "launchPath": "Moodle Dashboard -> Test -> existing LTI activity",
+    "newValidatedLtiLaunchObserved": true,
+    "toolTechnicalUserIdObserved": "5",
+    "readOnlyUiVerified": true,
+    "answerFieldsDisabled": true,
+    "submitDisabled": true,
+    "currentAttemptDisplayed": null,
+    "historyCountDisplayed": 0,
+    "rolesClaimInspected": false,
+    "rolesClaimValidationReportedByUser": true,
+    "authenticatedPostRejectionVerified": true,
+    "postVerificationMethod": "User reported ok:true and both 403 results for the supplied browser diagnostic after a fresh signed Moodle launch.",
+    "screenshots": {
+      "courseRole": "screenshots/gnomio-instructor-course-role.jpg",
+      "fullApp": "screenshots/gnomio-instructor-normal-launch.jpg",
+      "readOnlyMessage": "screenshots/gnomio-instructor-read-only.jpg"
+    }
+  },
+  "receiverAfterTeacherLaunch": {
+    "method": "Read actual Moodle Grader report under course-only instructor1",
+    "url": "https://eoweblab.gnomio.com/grade/report/grader/index.php?id=2",
+    "student1Score": "10.00",
+    "student2Score": "0.00",
+    "sameLtiActivityColumn": true,
+    "instructorDisplayedAsLearner": false,
+    "manualGradeChangesPerformed": false,
+    "databaseOrGradeHistoryInspected": false
+  },
+  "attemptFileComparisonAfterTeacherLaunch": {
+    "method": "Read-only SSH SHA-256 compared with before instructor enrolment and launch",
+    "beforeFileCount": 2,
+    "afterFileCount": 2,
+    "allDigestsUnchanged": true,
+    "newInstructorFileCreated": false,
+    "digests": [
+      {
+        "filename": "6925365b5c151c75585baacda1ce209592fc779d1175a84efbc66f11177ab579.json",
+        "sha256": "185b32d74d1c1d5bde16e214aaf3152f71f689693a54f95d92d48e7c58d0ae3b"
+      },
+      {
+        "filename": "db69ca526abde7b222e3124924d01d57b916bb78db1dd58df473691597100858.json",
+        "sha256": "d657d554fcb6628d6b73d7a055318e6928f6f2757fc34969afb386c461242f21"
+      }
+    ]
+  },
+  "authenticatedHttpChecks": {
+    "status": "Seven expected rejections passed: two Instructor results reported by user and five student2 results supplied as Console JSON",
+    "script": "../scripts/verify-gnomio-browser.mjs",
+    "privateCredentialsFileUsed": false,
+    "firstManualExecution": {
+      "evidenceSource": "User-provided Console output and explicit browser clarification",
+      "sessionGetStatus": 401,
+      "diagnosticOk": false,
+      "stoppedAt": "session guard",
+      "completedPostChecks": 0,
+      "directAppUrlOpenedInSeparateBrowser": true,
+      "cause": "The second browser had not acquired its own tool session through a signed Moodle LTI launch.",
+      "inAppBrowserAfterReload": {
+        "sessionRefreshedSuccessfully": true,
+        "toolTechnicalUserIdDisplayed": "5",
+        "readOnlyUiVerified": true
+      },
+      "recovery": "Log in as instructor1 in the browser used for Console; launch the existing LTI activity from Moodle, then rerun the script in the resulting app tab.",
+      "authenticationProtectionsChanged": false,
+      "diagnosticCodeChanged": false
+    },
+    "instructorManualResult": {
+      "recordedAt": "2026-10-11T12:01:14Z",
+      "evidenceSource": "Direct user report of manual Console execution in the same browser after Moodle launch",
+      "reportedDiagnosticOk": true,
+      "rawConsoleJsonCollected": false,
+      "technicalUserIdExpected": "5",
+      "roleExpected": "Instructor",
+      "checks": [
+        { "name": "Instructor: submit", "actualStatusReported": 403, "expectedCode": "read_only" },
+        { "name": "Instructor: new attempt", "actualStatusReported": 403, "expectedCode": "read_only" }
+      ],
+      "codeAndRoleEvidence": "Reported ok:true means the supplied diagnostic's exact Instructor role, read_only codes and unchanged API attempt snapshot guards passed; raw role JSON and response bodies were not supplied.",
+      "receiverRecheck": {
+        "method": "Agent refreshed and read native Moodle Grader report under instructor1 after the user's success report",
+        "student1Score": "10.00",
+        "student2Score": "0.00",
+        "instructorDisplayedAsLearner": false,
+        "sameLtiActivityColumn": true,
+        "databaseOrGradeHistoryInspected": false,
+        "screenshot": "screenshots/gnomio-gradebook-after-instructor-negative.jpg"
+      },
+      "attemptFileRecheck": {
+        "method": "Agent read remote SHA-256 via SSH after the user's success report",
+        "fileCount": 2,
+        "sameDigestsAsBeforeLaunch": true,
+        "newInstructorFileCreated": false
+      }
+    },
+    "learnerManualResult": {
+      "evidenceSource": "Full sanitized GNOMIO_NEGATIVE_CHECKS Console JSON supplied by user after ordinary student2 sign-in and Moodle LTI launch in the same browser",
+      "rawConsoleJsonCollected": true,
+      "consoleReport": {
+        "ok": true,
+        "checkedAt": "2026-10-11T12:03:30.949Z",
+        "actor": "student2",
+        "technicalUserId": "4",
+        "role": "Learner",
+        "realGnomioSession": true,
+        "checks": [
+          {
+            "name": "Extra userId",
+            "expectedStatus": 400,
+            "actualStatus": 400,
+            "code": "invalid_body",
+            "attemptsUnchanged": true
+          },
+          {
+            "name": "Extra scoreGiven",
+            "expectedStatus": 400,
+            "actualStatus": 400,
+            "code": "invalid_body",
+            "attemptsUnchanged": true
+          },
+          {
+            "name": "Missing q3",
+            "expectedStatus": 400,
+            "actualStatus": 400,
+            "code": "AnswersValidationError",
+            "attemptsUnchanged": true
+          },
+          {
+            "name": "Missing CSRF",
+            "expectedStatus": 403,
+            "actualStatus": 403,
+            "code": "invalid_csrf",
+            "attemptsUnchanged": true
+          },
+          {
+            "name": "Wrong CSRF",
+            "expectedStatus": 403,
+            "actualStatus": 403,
+            "code": "invalid_csrf",
+            "attemptsUnchanged": true
+          }
+        ],
+        "evidenceBoundary": "Browser POST and API snapshot only; verify receiver grades and attempt file digests separately."
+      }
+    },
+    "pendingInstructorCases": [],
+    "pendingLearnerCases": [],
+    "originCases": "Missing and foreign Origin remain verified only on local Moodle; a normal browser controls Origin."
+  },
+  "finalIndependentRecheck": {
+    "verificationDate": "2026-10-11",
+    "performedAfterStudent2ConsoleChecks": true,
+    "receiver": {
+      "method": "Agent read fresh native Moodle Grader report DOM and both native User reports under ordinary course-only instructor1",
+      "viewer": "instructor1",
+      "viewerTechnicalUserId": "5",
+      "viewerSiteAdministrator": false,
+      "sharedGradeItemId": "5",
+      "sameLtiActivityColumnConfirmedInFreshGraderDom": true,
+      "graderTableVisibleAfterRefresh": false,
+      "visibleProofMethod": "Native User reports navigated through Moodle, with horizontal scrolling to the LTI grade cell; no DOM or CSS changes",
+      "student1": {
+        "technicalUserId": "3",
+        "url": "https://eoweblab.gnomio.com/grade/report/user/index.php?id=2&userid=3",
+        "score": "10.00",
+        "gradeMaximum": 10,
+        "unchanged": true,
+        "screenshot": "screenshots/gnomio-student1-grade-after-negative-visible.jpg"
+      },
+      "student2": {
+        "technicalUserId": "4",
+        "url": "https://eoweblab.gnomio.com/grade/report/user/index.php?id=2&userid=4",
+        "score": "0.00",
+        "gradeMaximum": 10,
+        "unchanged": true,
+        "screenshot": "screenshots/gnomio-student2-grade-after-negative-visible.jpg"
+      },
+      "manualGradeChangesPerformed": false,
+      "databaseOrGradeHistoryInspected": false,
+      "perRequestAgsTrafficInspected": false
+    },
+    "attemptFiles": {
+      "method": "Agent read remote SHA-256 via SSH after student2 Console results and compared with the pre-enrolment baseline",
+      "beforeFileCount": 2,
+      "afterFileCount": 2,
+      "allDigestsUnchanged": true,
+      "digestsComparedWith": "attemptFileComparisonAfterTeacherLaunch.digests",
+      "newInstructorFileCreated": false,
+      "remoteWritesPerformed": false
+    }
+  },
+  "localCodeValidation": {
+    "checkedAt": "2026-10-11T12:45:22Z",
+    "command": "make check-ci",
+    "summaryFile": "test-results.json",
+    "passed": 68,
+    "failed": 0,
+    "newDiagnosticSafetyTests": 5,
+    "realGnomioHttpChecksIncluded": false,
+    "persistentMoodleContainersStarted": false
+  },
+  "mockOnlyChecks": {
+    "nonceReplay": "Automated imitation-platform test, not repeated in Gnomio",
+    "agsFailureAndRetry": "Automated imitation-platform test, no shared Moodle outage induced",
+    "assignmentReference": "Moodle_LTI_Three_Tasks_Lab.pdf, page 14"
+  },
+  "git": { "committed": false, "pushed": false },
+  "gitStatusScope": "At evidence collection; not the repository publication status after this protocol was recorded",
+  "evidenceBoundary": "Agent verified course-only non-admin teacher, ordinary sign-in, real LTI read-only UI, native Moodle grades and unchanged remote attempt digests. Instructor API guards and both 403 POST results are confirmed by the user's success report, without raw Instructor Console JSON. The five student2 400/403 responses and unchanged API snapshots are supported by the user's full sanitized Console JSON. Final receiver grades and remote file digests were independently read by the agent after these checks. Public Moodle SQL history, per-request AGS traffic and missing/foreign Origin were not inspected here; local diagnostic unit tests do not establish live Gnomio results."
+}
